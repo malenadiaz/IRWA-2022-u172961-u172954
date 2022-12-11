@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+
+<p>&nbsp;</p>
+    <h3>Your Session Details</h3>
+    <div class="centered">
+        <div class="card">
+        <p><b>Time in search engine:</b> {{time}}</p>
+        <p><b>IP:</b> {{sess.user_ip}}</p>
+        <p><b>OS: </b> {{sess.OS}}, <b>OS version: </b>{{sess.OSV}}</p>
+        <p><b>Browser: </b> {{sess.browser}}, <b>Browser version: </b>{{sess.browserV}}</p>
+    </div>
+    </div>
+
+    <p>&nbsp;</p>
+
+    <h3>Your Search History</h3>
+    <div class="centered" >
+        <div class="card" style="max-height:500px; overflow:scroll"> 
+        {% for search in sess.searches %}
+        <div class="pb-3">
+            <p><b>Query: </b>{{search.query}}</p>
+            <p><b>Number of retrieved docs: </b>{{search.docs_retrieved}}</p>
+        </div>
+        {% for item in search.docs%}
+        <div class="pb-3">
+            <div class="doc-title">
+                <a href="{{ item.url }}"  style="color:black; font:20px">{{ item.title }}...
+                </a>
+            </div>
+            <!-- <div class="cited">
+                <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
+            </div> -->
+            <div class="doc-desc" style="color:grey">
+                {{ item.doc_date }} — {{ item.description }}
+            </div>
+        </div>
+        {% endfor %}
+        <hr/>
+        {% endfor %}
+        <p>&nbsp;</p>
+    </div>
+</div>
+
+
+{% endblock %}
+

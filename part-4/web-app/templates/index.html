@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+    <p>&nbsp;</p>
+    <div class='header text-center'>
+        <span class='header2' style="color: #b76282">I</span>
+        <span class='header2' style="color:#66CC66">R</span>
+        <span class='header2' style="color:#FF9966">W</span>
+        <span class='header2' style="color:#FFCCCC">A</span>
+        <span>Search Engine </span>
+    </div>
+    <p>&nbsp;</p>
+    <div class="centered" style="width:80%;margin-left: auto; margin-right: auto" >
+    {% include 'search_bar.html' %}
+    </div>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <div class='centered' style="margin-top:1em;">
+        <a href="/">
+            <img src="{{ url_for('static', filename='logo.png') }}" width="200" alt="UPF logo"/>
+        </a>
+    </div>
+    
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+{% endblock %}

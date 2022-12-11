@@ -1,0 +1,199 @@
+.container {
+    max-width: 950px;
+    padding-top: 10px;
+    position: relative;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: #404246;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.centered {
+    text-align: center;
+}
+
+/*.btn-primary {*/
+/*    background-color: #c8102e;*/
+/*    border: #c8102e;*/
+/*}*/
+
+.btn-primary,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled):active {
+    /*color: #ffffff;*/
+    background-color: #ba1956;
+    border-color: #ba1956;
+    max-width:200px;
+}
+
+
+.header {
+    font-size: 3.5em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-top:1em;
+    color:grey;
+}
+
+.header2{
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.footer {
+}
+
+input[type=submit] {
+    background-color: #ba1956;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.95em;
+}
+
+input[type=submit]:hover {
+    background-color: #850a1e;
+}
+
+.search-text {
+    border: 1px solid #5f6368;
+    box-shadow: none;
+    z-index: 3;
+    height: 42px;
+    margin: 0 auto;
+    width: auto;
+    min-width: 300px;
+    max-width: 584px;
+    font-size: 0.95em;
+    padding-left: 5px;
+}
+
+.card {
+    border: 2px solid #ba1956;
+    border-radius: 25px;
+    padding: 1rem;
+    text-align:left;
+}
+
+
+.number_box{
+    display:flex;
+    flex-direction:column;
+    width: fit-content;
+    position:relative;
+    justify-content: center;
+    align-items: center;
+}
+.stats_number{
+    color: gray;
+    font-size:5rem;
+    font-family: monospace;
+    padding-bottom:0.5rem;
+    display: flex;
+}
+
+.label {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    color:#999292;
+    transform: translate(-50%, -50%);
+    font-size: 1rem;
+    text-align: center;
+    font-family: monospace;
+}
+
+.navbar {
+    display: flex;
+    
+    /* This is used to make the navbar sticky, So that the
+    navbar stays at the top part even if we scroll */
+    position: sticky; 
+    align-items: center;
+    justify-content: center;
+    top: 0px;
+    padding:0.25rem;
+    margin-bottom:1rem;
+    
+    
+    cursor: pointer;
+    }
+    
+    .nav-list {
+    width: 75%;
+    display: flex;
+    margin-bottom:0px;
+    padding-left:1rem;
+    }
+    
+    .nav-list li {
+    list-style: none;
+    }
+    
+    .nav-list li a {
+    text-decoration: none;
+    color: white;
+    padding-right:30px;
+    }
+    
+    .nav-list li a:hover {
+    color: black;
+    }
+    
+    .rightNav {
+        width: 25%;
+        text-align: right;
+
+
+        display:block;
+    }
+    
+    .background {
+    background: #ba1956;
+    background-blend-mode: darken;
+    background-size: cover;
+    }
+
+    .tooltip {
+        position: relative;
+        display: inline-block;
+        opacity:1;
+      }
+      
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -100px;
+        transition: opacity 0.3s;
+      }
+      
+      .tooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+      }
+      
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }

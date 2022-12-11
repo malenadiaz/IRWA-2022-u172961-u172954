@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block header %}
+    <!-- Next tag loads Charts.js https://www.chartjs.org/docs/latest/ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"
+            integrity="sha512-tMabqarPtykgDtdtSqCL3uLVM0gS1ZkUAVhRFu1vSEFgvB73niFQWJuvviDyBGBH22Lcau4rHB5p2K2T0Xvr6Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://pulipulichen.github.io/blogger/posts/2016/11/r-text-mining/wordcloud2.js"></script>
+{% endblock %}
+
+{% block content %}
+
+    <!--
+    Examples of what to show in Dashboard:
+
+    - Ranking of visited documents (from results page)
+    - Visitor's preferred browsers
+    - Visitor's city (from IP)
+    - preferred queries ranking
+    - preferred terms
+    - etc.
+
+    -->
+
+    <div class="col" style="display:flex">
+        <div style="margin-bottom:2rem; width:25%">
+            <div class="number_box">
+                <div class ="stats_number" id="searches" ></div>
+                <div class ="label" >searches</div>
+            </div>
+        </div>
+
+        <div class="col" style="margin-bottom:2rem; width:25%">
+            <div class="number_box">
+                <div class ="stats_number" id="first_clicked" ></div>
+                <div class ="label" style="font-size: 0.85em;width: 100%;" >clicks on 1st doc</div>
+            </div>
+        </div>
+    
+        <div class="col" style="margin-bottom:2rem; width:25%">
+            <div class="number_box">
+                <div class ="stats_number" >
+                    <span id="time_int"></span>
+                    <span style="font-size:0.75em">'</span>
+                    <span id="time_dec"></span>
+                </div>
+                <div class ="label" style="font-size: 0.85em;width: 100%;">Avg search time (ms) </div>
+            </div>
+        </div>
+
+        <div class="col" style="margin-bottom:2rem; width:25%">
+            <div class="number_box">
+                <div class ="stats_number" id="corpus_length" ></div>
+                <div class ="label" style="font-size: 0.85em;width: 100%;">docs in corpus</div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const numbers = JSON.parse({{numbers|tojson}});
+        document.getElementById('searches').innerHTML = numbers.searches;
+        document.getElementById('first_clicked').innerHTML = numbers.first_clicked;
+        const time = (numbers.time * 1000).toFixed(2).toString().split('.');
+        document.getElementById('time_int').innerHTML = time[0];
+        document.getElementById('time_dec').innerHTML = time[1];
+        document.getElementById('corpus_length').innerHTML = numbers.corpus_length;
+    </script>
+
+
+    <script>
+        // 'visited_docs' is the data coming from Python code.
+        // load the python list in the JS variable 'visits_list':
+        const visits_list ={{visited_docs|tojson}};
+        console.log("visited docs: ", typeof(visits_list));
+    </script>
+
+    <h5>Top 10 Visited Documents
+        <div class="tooltip"><i class="fas fa-info-circle">
+        </i><span class="tooltiptext">The 10 documents that have been clicked more times across history in this search engine.</span></div>    
+    </h5>
+    <hr></hr>
+    <canvas id="dailyVisits" width="400" height="200px"></canvas>
+
+
+    <script>
+        // use JS map function top get just the tweet ids as labels
+        const visitsLabels = visits_list.map(a => "id: " + a.doc_id);
+        const visitsData = visits_list.map(a => a.counter);
+        const visitsDescription = visits_list.map(a=> a.description.substring(0,100) + '...');
+        const chartData1 = {
+            labels: visitsLabels,
+            datasets: [{
+                label: 'Visits count',
+                data: visitsData,
+                fill: false,
+                backgroundColor: ['#8f224b', '#922f52','#953b58','#98455f', '#9b4f66'
+                                   , '#9d596c','#9f6273', '#a26c7a', '#a37581','#a57e88'],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1,
+                visitsDescr: visitsDescription,
+
+            }]
+        };
+
+        const ctx = document.getElementById('dailyVisits').getContext('2d');
+        // This will render the chart
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: chartData1,
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: {
+                            display: false
+                            }
+                    },
+                    y:{
+                        grid: {
+                            display: false
+                            }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        backgroundColor:"#cfcccd",
+                        titleColor:"black",
+                        bodyColor:"black",
+                        xAlign: "center",
+                        callbacks: {
+                            label: function(context) {
+                                 return context.dataset.visitsDescr[context.dataIndex];
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+    <p>&nbsp;</p>
+    <h5 >Query terms 
+    <div class="tooltip"><i class="fas fa-info-circle">
+    </i><span class="tooltiptext">The index terms that have been searched across history in this search engine.</span></div>
+    </h5>
+    <hr>
+    <canvas id="word_cloud" class="word_cloud" width="950" height="400"></canvas>
+    <script>
+
+        const searched_terms = JSON.parse({{searched_terms|tojson}});
+        list = [];
+        for (var i in searched_terms) {
+        list.push([i, searched_terms[i]])
+        }
+
+        WordCloud.minFontSize = "15px"
+        WordCloud(document.getElementById('word_cloud'), { list: list} );
+    </script>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <h5 >Popular search request times 
+        <div class="tooltip"><i class="fas fa-info-circle">
+        </i><span class="tooltiptext">Amount of search requests per hour</span></div>
+        </h5>
+    <canvas id="timeData" width="400" height="200px"></canvas>
+    <script>
+    const time_data = JSON.parse({{time_data|tojson}});
+    const timeLabels = [];
+    const data_series = [];
+    for (var i in time_data) {
+        timeLabels.push(i)
+        data_series.push(time_data[i])
+    }
+    const data = {
+        labels: timeLabels,
+        datasets: [
+            {
+            label: 'Searches per hour ',
+            data: data_series,
+            borderWidth: 2,
+            borderRadius: 0.25,
+            borderSkipped: false,
+            backgroundColor:'#8f224b'
+            }]
+        }
+        const CharData2 = {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                    }
+                },
+                };
+
+        const ctx2 = document.getElementById('timeData').getContext('2d');
+        // This will render the chart
+        const myChart2 = new Chart(ctx2,CharData2);
+    </script>
+
+{% endblock %}
+
+

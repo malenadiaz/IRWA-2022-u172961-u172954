@@ -1,0 +1,33 @@
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+
+
+<div>
+    <nav class="navbar background">
+        <!-- we have used list tag that is ul 
+            to list the items-->
+        <ul class="nav-list">
+            <li><a href="/">Search <i class="fas fa-search"></i></a></li>
+            <li><a href="/stats">Stats <i class="fas fa-calculator"></i></a></li>
+            <li><a href="/sentiment">Sentiment <i class="far fa-smile-beam"></i></a></li>
+            <li><a href="/dashboard">Dashboard <i class="far fa-chart-bar"></i></a></li>
+            <li><a href="/session">Session <i class="fas fa-info-circle"></i></a></li>
+        </ul>
+
+        <ul class="rightNav nav-list">
+            <li><button id ="goBack" "> &larr; Back</button></li>
+        </ul>
+    </nav>
+</div>
+
+<script>
+    document.getElementById('goBack').onclick = function() {
+        if(window.location.href.startsWith("http://127.0.0.1:8088/doc_details")){
+            window.location.href = '/search';
+        }
+        else{
+            history.back();
+        }
+    }
+</script>

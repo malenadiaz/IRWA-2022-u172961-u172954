@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+    <div class="centered">
+
+        <div class="card">
+        <p><b>Id:</b> {{doc.id}}</p>
+        <p><b>Title:</b> {{doc.title}}</p>
+        <p><b>Description:</b> {{doc.description}}</p>
+        <p><b>Creation date:</b> {{doc.doc_date}}</p>
+        <p><b>Likes </b><i class="far fa-1x fa-thumbs-up"></i>: {{doc.likes}}</p>
+        <p><b>Retweets </b><i class="fa fa-retweet fa-solid"></i>: {{doc.retweets}}</p>
+        <a class="btn btn-primary" href="{{doc.url}}" target ="_blank"
+         style="position: absolute; bottom: 1rem;right: 1rem;">Go to Tweet</a>
+
+        <p>&nbsp;</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block page_title %}{{ page_title }}{% endblock %}
+{% block content %}
+    <p>&nbsp;</p>
+    {% include 'search_bar.html' %}
+    <p>&nbsp;</p>
+
+    Found <strong>{{ found_counter }}</strong> results in <strong>{{search_time}}</strong> seconds
+    <hr>
+    {% for item in results_list %}
+        <div class="pb-3">
+            <div class="doc-title">
+                <a href="{{ item.url }}"  style="color:black; font:20px">{{ item.title }}...
+                </a>
+            </div>
+            <!-- <div class="cited">
+                <cite> <a href="{{ item.url }}">{{ item.url }}</a></cite>
+            </div> -->
+            <div class="doc-desc" style="color:grey">
+                {{ item.doc_date }} — {{ item.description }}
+            </div>
+        </div>
+        
+    {% endfor %}
+{% endblock %}
+

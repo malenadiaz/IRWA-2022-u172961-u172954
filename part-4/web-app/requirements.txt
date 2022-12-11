@@ -1,0 +1,7 @@
+httpagentparser
+nltk
+flask
+pandas
+requests
+faker
+word2number
